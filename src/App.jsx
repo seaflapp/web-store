@@ -70,7 +70,7 @@ function Footer() {
   )
 }
 
-function Home() {
+function Home({ theme, setTheme }) {
   const [searchOpen, setSearchOpen] = useState(false)
   const [headerVisible, setHeaderVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
@@ -100,8 +100,8 @@ function Home() {
   return (
     <>
       <Header 
-        theme="dark" 
-        setTheme={() => {}} 
+        theme={theme}
+        setTheme={setTheme}
         searchOpen={searchOpen} 
         setSearchOpen={setSearchOpen} 
         headerVisible={headerVisible} 
@@ -131,15 +131,15 @@ function Home() {
   )
 }
 
-function ProductDetail() {
+function ProductDetail({ theme, setTheme }) {
   const { id } = useParams()
   const navigate = useNavigate()
   const product = products.find(p => p.id === parseInt(id))
 
   if (!product) {
     return (
-      <div className="theme-dark">
-        <Header theme="dark" searchOpen={false} setSearchOpen={() => {}} headerVisible={true} />
+      <div className={`theme-${theme}`}>
+        <Header theme={theme} setTheme={setTheme} searchOpen={false} setSearchOpen={() => {}} headerVisible={true} />
         <main style={{ paddingTop: '5.5rem', textAlign: 'center' }}>
           <h1>Product not found</h1>
           <button onClick={() => navigate('/')} className="cta-btn">Back to Home</button>
@@ -150,8 +150,8 @@ function ProductDetail() {
   }
 
   return (
-    <div className="theme-dark">
-      <Header theme="dark" searchOpen={false} setSearchOpen={() => {}} headerVisible={true} />
+    <div className={`theme-${theme}`}>
+      <Header theme={theme} setTheme={setTheme} searchOpen={false} setSearchOpen={() => {}} headerVisible={true} />
       <main style={{ paddingTop: '5.5rem' }}>
         <div className="product-detail-container">
           <button onClick={() => navigate('/')} className="back-btn">← Back to Products</button>
@@ -180,8 +180,8 @@ function App() {
     <Router>
       <div className={`theme-${theme}`}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/" element={<Home theme={theme} setTheme={setTheme} />} />
+          <Route path="/product/:id" element={<ProductDetail theme={theme} setTheme={setTheme} />} />
         </Routes>
       </div>
     </Router>
